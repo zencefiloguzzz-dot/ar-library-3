@@ -2,39 +2,77 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>BEAL AR Video İndeksi</title>
+    <title>BEAL AR | Phrasal-Filmer</title>
     <style>
-        body { background: #1a1a1a; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; padding: 40px; }
-        .container { max-width: 500px; margin: auto; background: #262626; padding: 30px; border-radius: 15px; border-bottom: 5px solid #800000; }
-        h1 { color: #800000; font-size: 24px; }
-        .info { font-size: 0.8em; color: #aaa; margin-bottom: 20px; }
+        body { background: #121212; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { width: 90%; max-width: 500px; background: #1e1e1e; padding: 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { color: #800000; text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; }
         
-        /* GERÇEK TUŞ STİLİ */
-        .play-button {
-            display: block; width: 100%; padding: 20px; margin: 15px 0;
-            background: #800000; color: white; border: none;
-            border-radius: 10px; font-size: 18px; font-weight: bold;
-            cursor: pointer; text-decoration: none; transition: 0.3s;
+        .video-box { 
+            width: 100%; height: 250px; background: #333; margin-bottom: 20px; 
+            border-radius: 8px; overflow: hidden; border: 1px solid #444;
+            display: flex; justify-content: center; align-items: center;
         }
-        .play-button:hover { background: #a00000; transform: translateY(-3-px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .play-button:active { transform: scale(0.95); }
+        video { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .placeholder-text { color: #888; font-style: italic; }
+
+        .btn { 
+            width: 100%; padding: 15px; margin: 5px 0; background: #2a2a2a; 
+            color: white; border: 1px solid #800000; border-radius: 6px; 
+            cursor: pointer; font-weight: bold; transition: 0.3s;
+        }
+        .btn:hover { background: #800000; color: white; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>RUN OUT OF INDEX</h1>
-    <p class="info">TÜBİTAK 4006 | Phrasal-Filmer AR Projesi</p>
+    <h2>RUN OUT OF INDEX</h2>
+    
+    <!-- Video Oynatıcı Alanı -->
+    <div class="video-box" id="playerContainer">
+        <span class="placeholder-text" id="infoText">Lütfen bir video seçin</span>
+        <video id="myVideo" controls>
+            <source src="" type="video/mp4">
+            Tarayıcınız bu videoyu desteklemiyor.
+        </video>
+    </div>
 
-    <!-- href kısmına video dosyasının adını tam olarak yazın -->
-    <a href="run_out_battery.mp4" target="_blank" class="play-button">01 - Run out of Battery</a>
-    <a href="run_out_milk.mp4" target="_blank" class="play-button">02 - Run out of Milk</a>
-    <a href="run_out_time.mp4" target="_blank" class="play-button">03 - Run out of Time</a>
-
-    <p style="margin-top:20px; font-size: 12px; color: #666;">
-        Not: Tuşa basınca video yeni sekmede açılır. Açılmıyorsa dosya ismini kontrol edin.
-    </p>
+    <!-- Butonlar -->
+    <button class="btn" onclick="videoOynat('run_out_battery.mp4')">1. Battery (Şarj Bitmesi)</button>
+    <button class="btn" onclick="videoOynat('run_out_milk.mp4')">2. Milk (Süt Bitmesi)</button>
+    <button class="btn" onclick="videoOynat('run_out_time.mp4')">3. Time (Zamanın Bitmesi)</button>
 </div>
+
+<script>
+    function videoOynat(dosyaAdi) {
+        var video = document.getElementById('myVideo');
+        var info = document.getElementById('infoText');
+        
+        // Gri ekranı kaldır ve videoyu göster
+        info.style.display = 'none';
+        video.style.display = 'block';
+        
+        // Videoyu yükle
+        video.src = dosyaAdi;
+        video.load();
+        
+        // Oynatmayı dene
+        var playPromise = video.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                console.log("Video başarıyla başladı.");
+            }).catch(error => {
+                // HATA OLURSA BURASI ÇALIŞIR
+                alert("HATA: '" + dosyaAdi + "' dosyası açılamadı!\n\nSebepler:\n1. Dosya ismi yanlış olabilir.\n2. Video bu klasörde olmayabilir.\n3. Premiere çıktısı 'H.264' olmayabilir.");
+                video.style.display = 'none';
+                info.style.display = 'block';
+                info.innerText = "Hata: Dosya Bulunamadı";
+            });
+        }
+    }
+</script>
 
 </body>
 </html>
