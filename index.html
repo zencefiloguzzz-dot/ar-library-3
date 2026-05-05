@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phrasal-Filmer | Run Out Of Index</title>
+    <style>
+        :root {
+            --beal-maroon: #800000; /* Okul renklerine uygun */
+            --dark-bg: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --text-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-left: 5px solid var(--beal-maroon);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--beal-maroon);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .index-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .index-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .id {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--beal-maroon);
+            margin-right: 20px;
+            min-width: 30px;
+        }
+
+        .content {
+            flex-grow: 1;
+        }
+
+        .content span {
+            display: block;
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        .status {
+            font-size: 0.8em;
+            background: #4caf50;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Phrasal-Filmer: RUN OUT OF</h1>
+    
+    <div class="index-item">
+        <div class="id">01</div>
+        <div class="content">
+            <strong>Run out of Battery</strong>
+            <span>Effect: Mask Tracking & Battery UI</span>
+        </div>
+        <div class="status">READY</div>
+    </div>
+
+    <div class="index-item">
+        <div class="id 02">02</div>
+        <div class="content">
+            <strong>Run out of Milk</strong>
+            <span>Effect: Lumetri Color (Cold Tones)</span>
+        </div>
+        <div class="status">READY</div>
+    </div>
+
+    <div class="index-item">
+        <div class="id">03</div>
+        <div class="content">
+            <strong>Run out of Patience</strong>
+            <span>Effect: Roto Brush (Stress Aura)</span>
+        </div>
+        <div class="status">READY</div>
+    </div>
+
+    <div class="index-item">
+        <div class="id">04</div>
+        <div class="content">
+            <strong>Run out of Time</strong>
+            <span>Effect: AE Time Remapping[cite: 1]</span>
+        </div>
+        <div class="status">READY</div>
+    </div>
+</div>
+
+</body>
+</html>
