@@ -2,76 +2,85 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>BEAL Phrasal-Filmer AR Panel</title>
+    <title>PHRASAL-FILMER | BEAL AR INDEX</title>
     <style>
-        body { background: #121212; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .card { width: 100%; max-width: 500px; background: #1e1e1e; padding: 20px; border-radius: 15px; border-top: 5px solid #800000; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
-        h2 { text-align: center; color: #800000; margin-bottom: 20px; }
+        body { background: #121212; color: white; font-family: sans-serif; display: flex; justify-content: center; padding-top: 30px; }
+        .card { width: 450px; background: #1e1e1e; padding: 25px; border-radius: 15px; border-top: 6px solid #800000; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        h2 { text-align: center; color: #800000; margin-bottom: 20px; text-transform: uppercase; }
         
-        /* Video Kutusu */
-        #display-area { width: 100%; height: 280px; background: #000; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 1px solid #333; overflow: hidden; }
-        video { width: 100%; height: 100%; display: none; }
-        .msg { color: #666; text-align: center; font-size: 14px; padding: 10px; }
+        /* Video Penceresi */
+        .video-box { width: 100%; height: 260px; background: #000; border-radius: 10px; margin-bottom: 20px; overflow: hidden; border: 1px solid #333; position: relative; }
+        video { width: 100%; height: 100%; display: none; object-fit: contain; }
+        .placeholder { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #555; font-size: 13px; text-align: center; }
 
-        /* Modern Butonlar */
+        /* Butonlar */
         .btn { 
-            width: 100%; padding: 16px; margin: 8px 0; background: #2a2a2a; color: white; 
+            width: 100%; padding: 15px; margin: 8px 0; background: #2a2a2a; color: #fff; 
             border: 1px solid #444; border-radius: 8px; cursor: pointer; font-weight: bold;
-            display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
+            display: flex; justify-content: space-between; transition: 0.3s;
         }
-        .btn:hover { background: #800000; border-color: #fff; }
-        .btn span { font-size: 12px; opacity: 0.6; }
+        .btn:hover { background: #800000; border-color: #fff; transform: scale(1.02); }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>RUN OUT OF INDEX</h2>
+    <h2>RUN OUT OF</h2>
     
-    <div id="display-area">
-        <div id="info" class="msg">Lütfen videoyu oynatmak için tuşa basın.<br>(Dosya seç ekranı gelirse ilgili videoyu seçin)</div>
-        <video id="mainVideo" controls autoplay></video>
+    <div class="video-box">
+        <div id="msg" class="placeholder">Video oynatmak için tuşa basın.<br>(Dosya seçmeniz istenirse videoyu klasörden seçin)</div>
+        <video id="v-player" controls autoplay></video>
     </div>
 
-    <!-- Tıklanabilir Alanlar -->
-    <button class="btn" onclick="videoAc('run_out_battery.mp4')">01 - Run out of Battery <span>MP4</span></button>
-    <button class="btn" onclick="videoAc('run_out_milk.mp4')">02 - Run out of Milk <span>MP4</span></button>
-    <button class="btn" onclick="videoAc('run_out_patience.mp4')">03 - Run out of Patience <span>MP4</span></button>
-    <button class="btn" onclick="videoAc('run_out_time.mp4')">04 - Run out of Time <span>MP4</span></button>
+    <!-- Tıklama Etkinlikleri -->
+    <button class="btn" onclick="videoYukle('run_out_battery.mp4')">01 - Run out of Battery <span>▶</span></button>
+    <button class="btn" onclick="videoYukle('run_out_milk.mp4')">02 - Run out of Milk <span>▶</span></button>
+    <button class="btn" onclick="videoYukle('run_out_patience.mp4')">03 - Run out of Patience <span>▶</span></button>
+    <button class="btn" onclick="videoYukle('run_out_time.mp4')">04 - Run out of Time <span>▶</span></button>
 
+    <!-- Gizli Dosya Seçici -->
     <input type="file" id="manualPicker" style="display: none;" accept="video/mp4">
 </div>
 
 <script>
-    const v = document.getElementById('mainVideo');
-    const info = document.getElementById('info');
+    const video = document.getElementById('v-player');
+    const msg = document.getElementById('msg');
     const picker = document.getElementById('manualPicker');
-    let currentTarget = "";
 
-    function videoAc(dosya) {
-        currentTarget = dosya;
-        v.src = dosya;
+    function videoYukle(dosya) {
+        // Önce doğrudan yolu dene
+        video.src = dosya;
         
-        v.play().then(() => {
-            v.style.display = "block";
-            info.style.display = "none";
+        video.play().then(() => {
+            // Eğer başarıyla oynatırsa (Güvenlik engeli yoksa)
+            video.style.display = "block";
+            msg.style.display = "none";
         }).catch(() => {
-            // Tarayıcı yolu bulamazsa manuel seçiciyi açar
-            picker.click();
+            // "İşlem seçin" ekranı gelmesi için tetikleyici
+            console.log("Tarayıcı engeli: Manuel seçim açılıyor.");
+            picker.click(); 
         });
     }
 
+    // Kullanıcı dosyayı seçtiği an (İşlem seçin -> Dosyalarım dedikten sonra)
     picker.onchange = e => {
         const file = e.target.files[0];
         if (file) {
             const url = URL.createObjectURL(file);
-            v.src = url;
-            v.style.display = "block";
-            info.style.display = "none";
-            v.play();
+            video.src = url;
+            video.style.display = "block";
+            msg.style.display = "none";
+            video.play();
         }
     }
 </script>
 
 </body>
 </html>
+🚨 Neden Hala "İşlem Seçin" Diyor?
+Tarayıcı Mantığı: Tarayıcı şunu der: "Ben run_out_milk.mp4 ismini görüyorum ama bu videonun gerçek sahibi sen misin yoksa dışarıdan bir saldırı mı var emin değilim. Bana dosyayı elinle göster (Dosyalarım'dan seç), o zaman güvenip oynatırım."  
+
+Fuar İçin İpucu: Fuar günü eğer bilgisayar başında olacaksanız, videoları bir kez açıp gösterdiğinizde tarayıcı o oturum boyunca genellikle tekrar sormaz.  
+
+Eğer hiç uğraşmak istemiyorsanız:
+Videoları YouTube'a "Liste Dışı" (Unlisted) olarak yükleyin. Kodun içindeki videoYukle kısmına dosya adı yerine YouTube linkini yazalım. O zaman tarayıcı asla "İşlem seçin" demez, doğrudan internetten oynatır. Fuar alanında internet olacak mı?
