@@ -2,60 +2,74 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>PHRASAL-FILMER | ACİL ÇÖZÜM PANELİ</title>
+    <title>BEAL Phrasal-Filmer AR Panel</title>
     <style>
-        body { background: #1a1a1a; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
-        .box { max-width: 500px; margin: auto; background: #222; padding: 20px; border-radius: 15px; border: 2px solid #800000; }
-        video { width: 100%; border-radius: 10px; margin-top: 20px; background: #000; display: block; }
+        body { background: #121212; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .card { width: 100%; max-width: 500px; background: #1e1e1e; padding: 20px; border-radius: 15px; border-top: 5px solid #800000; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+        h2 { text-align: center; color: #800000; margin-bottom: 20px; }
+        
+        /* Video Kutusu */
+        #display-area { width: 100%; height: 280px; background: #000; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 1px solid #333; overflow: hidden; }
+        video { width: 100%; height: 100%; display: none; }
+        .msg { color: #666; text-align: center; font-size: 14px; padding: 10px; }
+
+        /* Modern Butonlar */
         .btn { 
-            width: 100%; padding: 15px; margin: 10px 0; background: #800000; 
-            color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;
+            width: 100%; padding: 16px; margin: 8px 0; background: #2a2a2a; color: white; 
+            border: 1px solid #444; border-radius: 8px; cursor: pointer; font-weight: bold;
+            display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
         }
-        .btn:hover { background: #b00000; }
-        .warning { color: #ffcc00; font-size: 12px; margin-top: 10px; }
+        .btn:hover { background: #800000; border-color: #fff; }
+        .btn span { font-size: 12px; opacity: 0.6; }
     </style>
 </head>
 <body>
 
-<div class="box">
+<div class="card">
     <h2>RUN OUT OF INDEX</h2>
-    <p class="warning">Not: Video otomatik başlamazsa lütfen dosyayı seçin.</p>
     
-    <video id="mainPlayer" controls autoplay></video>
+    <div id="display-area">
+        <div id="info" class="msg">Lütfen videoyu oynatmak için tuşa basın.<br>(Dosya seç ekranı gelirse ilgili videoyu seçin)</div>
+        <video id="mainVideo" controls autoplay></video>
+    </div>
 
-    <hr style="border: 0.5px solid #333; margin: 20px 0;">
+    <!-- Tıklanabilir Alanlar -->
+    <button class="btn" onclick="videoAc('run_out_battery.mp4')">01 - Run out of Battery <span>MP4</span></button>
+    <button class="btn" onclick="videoAc('run_out_milk.mp4')">02 - Run out of Milk <span>MP4</span></button>
+    <button class="btn" onclick="videoAc('run_out_patience.mp4')">03 - Run out of Patience <span>MP4</span></button>
+    <button class="btn" onclick="videoAc('run_out_time.mp4')">04 - Run out of Time <span>MP4</span></button>
 
-    <!-- Dosya yollarını manuel tetikleme -->
-    <button class="btn" onclick="videoTetikle('run_out_battery.mp4')">01 - Run out of Battery</button>
-    <button class="btn" onclick="videoTetikle('run_out_milk.mp4')">02 - Run out of Milk</button>
-    <button class="btn" onclick="videoTetikle('run_out_patience.mp4')">03 - Run out of Patience</button>
-    <button class="btn" onclick="videoTetikle('run_out_time.mp4')">04 - Run out of Time[cite: 1]</button>
-    
-    <!-- Manuel Dosya Seçici (Gizli) -->
-    <input type="file" id="fileInput" style="display: none;" accept="video/mp4">
+    <input type="file" id="manualPicker" style="display: none;" accept="video/mp4">
 </div>
 
 <script>
-    const video = document.getElementById('mainPlayer');
-    const fileInput = document.getElementById('fileInput');
+    const v = document.getElementById('mainVideo');
+    const info = document.getElementById('info');
+    const picker = document.getElementById('manualPicker');
+    let currentTarget = "";
 
-    function videoTetikle(dosyaAdi) {
-        // Önce doğrudan deniyoruz
-        video.src = dosyaAdi;
-        video.play().catch(error => {
-            console.log("Güvenlik engeli takıldı, manuel seçim açılıyor.");
-            // Eğer tarayıcı engellerse, kullanıcıya dosyayı seçtiriyoruz
-            alert("Tarayıcı güvenliği nedeniyle lütfen klasörden '" + dosyaAdi + "' dosyasını bir kez seçin.");
-            fileInput.click();
+    function videoAc(dosya) {
+        currentTarget = dosya;
+        v.src = dosya;
+        
+        v.play().then(() => {
+            v.style.display = "block";
+            info.style.display = "none";
+        }).catch(() => {
+            // Tarayıcı yolu bulamazsa manuel seçiciyi açar
+            picker.click();
         });
     }
 
-    // Dosya seçildiğinde oynat
-    fileInput.onchange = e => {
+    picker.onchange = e => {
         const file = e.target.files[0];
-        const url = URL.createObjectURL(file);
-        video.src = url;
-        video.play();
+        if (file) {
+            const url = URL.createObjectURL(file);
+            v.src = url;
+            v.style.display = "block";
+            info.style.display = "none";
+            v.play();
+        }
     }
 </script>
 
