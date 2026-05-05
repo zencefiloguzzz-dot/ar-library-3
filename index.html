@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phrasal-Filmer | Interactive Index</title>
+    <title>Phrasal-Filmer | Video Player</title>
     <style>
         :root {
             --beal-maroon: #800000;
             --dark-bg: #1a1a1a;
             --card-bg: #2d2d2d;
             --text-color: #e0e0e0;
-            --accent-color: #ffd700; /* Altın sarısı vurgu */
         }
 
         body {
@@ -26,146 +25,120 @@
 
         .container {
             width: 90%;
-            max-width: 800px;
+            max-width: 600px;
             background: var(--card-bg);
-            padding: 30px;
+            padding: 25px;
             border-radius: 15px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            border-top: 4px solid var(--beal-maroon);
         }
 
-        h1 {
-            text-align: center;
-            color: var(--beal-maroon);
-            margin-bottom: 5px;
-        }
+        h1 { text-align: center; color: var(--beal-maroon); margin-bottom: 20px; }
 
-        p.subtitle {
-            text-align: center;
-            color: #888;
-            margin-bottom: 30px;
-            font-size: 0.9em;
-        }
-
-        /* Tıklanabilir Buton Stili */
-        .index-button {
+        /* Buton Stilleri */
+        .video-btn {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 12px;
-            padding: 18px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
             width: 100%;
-            text-align: left;
-            color: var(--text-color);
-            transition: all 0.3s ease;
-            outline: none;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .index-button:hover {
+        .video-btn:hover {
             background: var(--beal-maroon);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border-color: var(--accent-color);
+            transform: scale(1.02);
         }
 
-        .index-button:active {
-            transform: scale(0.98);
+        /* Video Modal (Gizli Pencere) */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
         }
 
-        .id {
-            font-weight: bold;
-            font-size: 1.4em;
-            color: var(--accent-color);
-            margin-right: 20px;
-            width: 40px;
+        .modal-content {
+            position: relative;
+            margin: auto;
+            top: 10%;
+            width: 80%;
+            max-width: 800px;
         }
 
-        .content {
-            flex-grow: 1;
-        }
+        video { width: 100%; border-radius: 10px; box-shadow: 0 0 20px var(--beal-maroon); }
 
-        .content strong {
-            display: block;
-            font-size: 1.1em;
-        }
-
-        .content span {
-            font-size: 0.85em;
-            opacity: 0.7;
-        }
-
-        /* Bildirim Kutusu */
-        #status-box {
-            margin-top: 20px;
-            padding: 10px;
-            text-align: center;
-            border-radius: 5px;
-            font-weight: bold;
-            display: none;
+        .close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>RUN OUT OF</h1>
-    <p class="subtitle">Phrasal-Filmer AR Content Library</p>
+    <h1>RUN OUT OF INDEX</h1>
     
-    <!-- Buton 1 -->
-    <button class="index-button" onclick="playVideo('Battery Video Açılıyor...')">
-        <div class="id">01</div>
-        <div class="content">
-            <strong>Run out of Battery</strong>
-            <span>Mask Tracking & UI Elements</span>
-        </div>
+    <!-- data-src kısmına video dosyanızın adını yazın -->
+    <button class="video-btn" onclick="openVideo('video1.mp4')">
+        <span>01 - Run out of Battery</span>
+        <span>▶</span>
     </button>
 
-    <!-- Buton 2 -->
-    <button class="index-button" onclick="playVideo('Milk Video Açılıyor...')">
-        <div class="id">02</div>
-        <div class="content">
-            <strong>Run out of Milk</strong>
-            <span>Lumetri Color Grading</span>
-        </div>
+    <button class="video-btn" onclick="openVideo('video2.mp4')">
+        <span>02 - Run out of Milk</span>
+        <span>▶</span>
     </button>
 
-    <!-- Buton 3 -->
-    <button class="index-button" onclick="playVideo('Patience Video Açılıyor...')">
-        <div class="id">03</div>
-        <div class="content">
-            <strong>Run out of Patience</strong>
-            <span>Roto Brush 3.0 Integration</span>
-        </div>
+    <button class="video-btn" onclick="openVideo('video3.mp4')">
+        <span>03 - Run out of Patience</span>
+        <span>▶</span>
     </button>
+</div>
 
-    <!-- Buton 4 -->
-    <button class="index-button" onclick="playVideo('Time Video Açılıyor...')">
-        <div class="id">04</div>
-        <div class="content">
-            <strong>Run out of Time</strong>
-            <span>After Effects Time Remapping[cite: 1]</span>
-        </div>
-    </button>
-
-    <div id="status-box"></div>
+<!-- Video Oynatıcı Penceresi -->
+<div id="videoModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeVideo()">&times; Kapat</span>
+        <video id="mainVideo" controls>
+            <source src="" type="video/mp4">
+            Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+    </div>
 </div>
 
 <script>
-    function playVideo(message) {
-        const box = document.getElementById('status-box');
-        box.style.display = 'block';
-        box.style.backgroundColor = '#4caf50';
-        box.innerText = message;
-        
-        // Buraya ileride video linki ekleyebilirsiniz:
-        // window.location.href = "video_adresi.mp4";
-        
-        setTimeout(() => {
-            box.style.display = 'none';
-        }, 2000);
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('mainVideo');
+
+    function openVideo(videoSrc) {
+        video.src = videoSrc; // Videonun yolunu ayarlar
+        modal.style.display = "block"; // Pencereyi açar
+        video.play(); // Videoyu başlatır
+    }
+
+    function closeVideo() {
+        modal.style.display = "none"; // Pencereyi kapatır
+        video.pause(); // Videoyu durdurur
+        video.src = ""; // Kaynağı temizler
+    }
+
+    // Pencere dışına tıklayınca kapatma
+    window.onclick = function(event) {
+        if (event.target == modal) { closeVideo(); }
     }
 </script>
 
