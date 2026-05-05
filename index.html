@@ -1,3 +1,9 @@
+Üstad, "aynı hata" devam ediyorsa muhtemelen tarayıcı hala eski kodları (cache) çalıştırmaya çalışıyor veya dosya isimlerinde çok küçük bir uyumsuzluk var. Müdür beyin de içine sinecek şekilde, hatayı kökten çözecek son bir dokunuş yapalım.
+
+Şu an telefonunuzun o menüyü çıkarmasının sebebi, videoyu hala bağımsız bir dosya gibi görmesidir. Aşağıdaki kodu index.html dosyanıza tamamen silip yeniden yapıştırın. Bu sefer videoların başına ./ ekleyerek tarayıcıya "dosya hemen burada, başka uygulama arama" diyoruz.
+
+🛠️ Kesin Çözüm Kodu (Müdür Bey'in İstediği Tarz)
+HTML
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -5,42 +11,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BEAL Phrasal-Filmer AR</title>
     <style>
-        body { background: #121212; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .card { width: 100%; max-width: 400px; background: #1e1e1e; padding: 20px; border-radius: 15px; border-top: 6px solid #800000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { text-align: center; color: #800000; margin-bottom: 20px; }
-        .video-box { width: 100%; height: 230px; background: #000; border-radius: 10px; margin-bottom: 20px; overflow: hidden; border: 1px solid #333; }
-        video { width: 100%; height: 100%; object-fit: cover; }
-        .btn { width: 100%; padding: 14px; margin: 6px 0; background: #2a2a2a; color: white; border: 1px solid #444; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; }
-        .btn:hover { background: #800000; }
+        body { background: #121212; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; margin: 0; }
+        .card { width: 100%; max-width: 400px; background: #1e1e1e; padding: 20px; border-radius: 15px; border-top: 6px solid #800000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; }
+        h2 { color: #800000; margin-bottom: 20px; font-size: 1.5rem; }
+        .video-box { width: 100%; height: 230px; background: #000; border-radius: 10px; margin-bottom: 20px; overflow: hidden; border: 1px solid #333; position: relative; }
+        video { width: 100%; height: 100%; object-fit: contain; background: black; }
+        .btn { width: 100%; padding: 14px; margin: 8px 0; background: #2a2a2a; color: white; border: 1px solid #444; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .btn:active { background: #800000; transform: scale(0.98); }
+        .btn span { font-size: 1.2rem; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <h2>RUN OUT OF</h2>
+    
     <div class="video-box">
-        <!-- Video burada oynayacak, asla dışarı taşmayacak -->
-        <video id="myVideo" controls playsinline>
-            <source id="videoSource" src="roo.mp4" type="video/mp4">
-            Tarayıcınız video oynatmayı desteklemiyor.
+        <!-- 'playsinline' ve 'webkit-playsinline' telefonun kendi oynatıcısını açmasını engeller -->
+        <video id="player" controls playsinline webkit-playsinline poster="https://via.placeholder.com/400x230/000000/800000?text=Video+Hazır">
+            <source id="source" src="./roo.mp4" type="video/mp4">
         </video>
     </div>
 
-    <!-- Tırnak içindeki kısımları GitHub'daki dosya adlarınızla değiştirin -->
-    <button class="btn" onclick="degistir('roo.mp4')">01 - Battery (Şarj) <span>▶</span></button>
-    <button class="btn" onclick="degistir('video2.mp4')">02 - Milk (Süt) <span>▶</span></button>
-    <button class="btn" onclick="degistir('video3.mp4')">03 - Patience (Sabır) <span>▶</span></button>
-    <button class="btn" onclick="degistir('video4.mp4')">04 - Time (Zaman) <span>▶</span></button>
+    <!-- Tırnak içindeki ./ kısmından sonra GitHub'daki mp4 isimlerini tam yazın -->
+    <button class="btn" onclick="oynat('./roo.mp4')">01 - Battery (Şarj) <span>▶</span></button>
+    <button class="btn" onclick="oynat('./video2.mp4')">02 - Milk (Süt) <span>▶</span></button>
+    <button class="btn" onclick="oynat('./video3.mp4')">03 - Patience (Sabır) <span>▶</span></button>
+    <button class="btn" onclick="oynat('./video4.mp4')">04 - Time (Zaman) <span>▶</span></button>
 </div>
 
 <script>
-    function degistir(dosyaAdi) {
-        var video = document.getElementById('myVideo');
-        var source = document.getElementById('videoSource');
+    function oynat(yol) {
+        var v = document.getElementById('player');
+        var s = document.getElementById('source');
         
-        source.src = dosyaAdi;
-        video.load(); // Yeni videoyu yükle
-        video.play(); // Otomatik başlat
+        // Önce durdur, sonra yeni kaynağı yükle
+        v.pause();
+        s.src = yol;
+        v.load();
+        
+        // Hata kontrolü ve başlatma
+        var playPromise = v.play();
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                // Video başarıyla başladı
+            }).catch(error => {
+                console.log("Otomatik başlatma engellendi, kullanıcı dokunmalı.");
+            });
+        }
     }
 </script>
 
