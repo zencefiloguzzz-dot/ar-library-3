@@ -3,43 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BEAL AR | Phrasal-Filmer</title>
+    <title>PHRASAL-FILMER | AR LIBRARY</title>
     <style>
-        body { background: #121212; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .card { width: 100%; max-width: 450px; background: #1e1e1e; padding: 20px; border-radius: 15px; border-top: 6px solid #800000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { text-align: center; color: #800000; margin-bottom: 20px; }
-        .video-box { width: 100%; height: 250px; background: #000; border-radius: 10px; margin-bottom: 20px; overflow: hidden; border: 1px solid #333; }
+        body { background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { width: 90%; max-width: 400px; background: #1a1a1a; padding: 20px; border-radius: 20px; border: 2px solid #800000; box-shadow: 0 0 20px rgba(128,0,0,0.5); }
+        h2 { text-align: center; color: #800000; letter-spacing: 2px; margin-top: 0; }
+        .v-container { width: 100%; height: 220px; background: #000; border-radius: 10px; margin-bottom: 15px; overflow: hidden; }
         iframe { width: 100%; height: 100%; border: none; }
-        .btn { width: 100%; padding: 15px; margin: 8px 0; background: #2a2a2a; color: #fff; border: 1px solid #444; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; transition: 0.3s; }
-        .btn:hover { background: #800000; }
+        .btn { width: 100%; padding: 14px; margin: 6px 0; background: #222; color: #fff; border: 1px solid #444; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn:hover { background: #800000; transform: scale(1.02); }
     </style>
 </head>
 <body>
 
 <div class="card">
     <h2>RUN OUT OF</h2>
-    <div class="video-box">
-        <iframe id="yt-player" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <div class="v-container">
+        <!-- Başlangıçta boş, butona basınca dolar -->
+        <iframe id="vid" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
-    <!-- YouTube Linklerinizi buradaki tırnakların içine yapıştırın -->
-    <button class="btn" onclick="videoAc('LİNK1')">01 - Battery (Şarj) <span>▶</span></button>
-    <button class="btn" onclick="videoAc('LİNK2')">02 - Milk (Süt) <span>▶</span></button>
-    <button class="btn" onclick="videoAc('LİNK3')">03 - Patience (Sabır) <span>▶</span></button>
-    <button class="btn" onclick="videoAc('LİNK4')">04 - Time (Zaman) <span>▶</span></button>
+    <!-- YouTube Linklerinizi Alttaki v('...') İçine Yapıştırın -->
+    <button class="btn" onclick="v('https://www.youtube.com/watch?v=VIDEO_ID_1')">01 - Run out of Battery ▶</button>
+    <button class="btn" onclick="v('https://www.youtube.com/watch?v=VIDEO_ID_2')">02 - Run out of Milk ▶</button>
+    <button class="btn" onclick="v('https://www.youtube.com/watch?v=VIDEO_ID_3')">03 - Run out of Patience ▶</button>
+    <button class="btn" onclick="v('https://www.youtube.com/watch?v=VIDEO_ID_4')">04 - Run out of Time ▶</button>
 </div>
 
 <script>
-    function videoAc(link) {
-        const player = document.getElementById('yt-player');
-        // Linkten video ID'sini otomatik çeken güvenli fonksiyon
-        let videoId = "";
-        if(link.includes('v=')) {
-            videoId = link.split('v=')[1].split('&')[0];
-        } else {
-            videoId = link.split('/').pop();
-        }
-        player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+    function v(url) {
+        const p = document.getElementById('vid');
+        // YouTube linkini gömme formatına çevirir
+        let id = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop();
+        p.src = "https://www.youtube.com/embed/" + id + "?autoplay=1";
     }
 </script>
 
