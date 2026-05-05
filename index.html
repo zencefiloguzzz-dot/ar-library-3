@@ -2,77 +2,39 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>BEAL | Phrasal-Filmer Video Index</title>
+    <title>BEAL AR Video İndeksi</title>
     <style>
-        :root { --beal: #800000; --bg: #121212; }
-        body { background: var(--bg); color: white; font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
-        .list-container { width: 400px; background: #1e1e1e; padding: 20px; border-radius: 10px; border-top: 5px solid var(--beal); }
-        .btn { 
-            width: 100%; padding: 15px; margin: 10px 0; 
-            background: #2a2a2a; border: 1px solid #444; 
-            color: white; cursor: pointer; text-align: left;
-            border-radius: 5px; transition: 0.2s;
-        }
-        .btn:hover { background: var(--beal); border-color: white; }
+        body { background: #1a1a1a; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; padding: 40px; }
+        .container { max-width: 500px; margin: auto; background: #262626; padding: 30px; border-radius: 15px; border-bottom: 5px solid #800000; }
+        h1 { color: #800000; font-size: 24px; }
+        .info { font-size: 0.8em; color: #aaa; margin-bottom: 20px; }
         
-        /* Video Penceresi */
-        #videoOverlay {
-            display: none; position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.95);
-            flex-direction: column; justify-content: center; align-items: center;
+        /* GERÇEK TUŞ STİLİ */
+        .play-button {
+            display: block; width: 100%; padding: 20px; margin: 15px 0;
+            background: #800000; color: white; border: none;
+            border-radius: 10px; font-size: 18px; font-weight: bold;
+            cursor: pointer; text-decoration: none; transition: 0.3s;
         }
-        video { width: 80%; max-width: 900px; border: 2px solid var(--beal); }
-        .close-btn { color: white; margin-bottom: 15px; cursor: pointer; font-size: 20px; }
+        .play-button:hover { background: #a00000; transform: translateY(-3-px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .play-button:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
-<div class="list-container">
-    <h2 style="text-align: center;">RUN OUT OF INDEX</h2>
-    
-    <!-- DİKKAT: 'video1.mp4' yazan yere videonuzun tam adını yazın -->
-    <button class="btn" onclick="playARVideo('run_out_battery.mp4')">01 - Run out of Battery ▶</button>
-    <button class="btn" onclick="playARVideo('run_out_milk.mp4')">02 - Run out of Milk ▶</button>
-    <button class="btn" onclick="playARVideo('run_out_time.mp4')">03 - Run out of Time ▶</button>
+<div class="container">
+    <h1>RUN OUT OF INDEX</h1>
+    <p class="info">TÜBİTAK 4006 | Phrasal-Filmer AR Projesi</p>
+
+    <!-- href kısmına video dosyasının adını tam olarak yazın -->
+    <a href="run_out_battery.mp4" target="_blank" class="play-button">01 - Run out of Battery</a>
+    <a href="run_out_milk.mp4" target="_blank" class="play-button">02 - Run out of Milk</a>
+    <a href="run_out_time.mp4" target="_blank" class="play-button">03 - Run out of Time</a>
+
+    <p style="margin-top:20px; font-size: 12px; color: #666;">
+        Not: Tuşa basınca video yeni sekmede açılır. Açılmıyorsa dosya ismini kontrol edin.
+    </p>
 </div>
-
-<div id="videoOverlay">
-    <div class="close-btn" onclick="closeARVideo()">✖ KAPAT (ESC)</div>
-    <video id="player" controls>
-        <source id="videoSource" src="" type="video/mp4">
-    </video>
-</div>
-
-<script>
-    const overlay = document.getElementById('videoOverlay');
-    const player = document.getElementById('player');
-    const source = document.getElementById('videoSource');
-
-    function playARVideo(file) {
-        // 1. Önce kaynağı güncelle
-        source.src = file;
-        
-        // 2. Videoyu yükle
-        player.load();
-        
-        // 3. Pencereyi göster
-        overlay.style.display = 'flex';
-        
-        // 4. Oynatmayı dene ve hata kontrolü yap
-        player.play().catch(error => {
-            alert("Hata: '" + file + "' dosyası bulunamadı! \n\nLütfen video dosyasının bu HTML ile AYNI KLASÖRDE olduğundan ve isminin doğru olduğundan emin olun.");
-            closeARVideo();
-        });
-    }
-
-    function closeARVideo() {
-        overlay.style.display = 'none';
-        player.pause();
-    }
-
-    // ESC tuşu ile kapatma özelliği
-    document.addEventListener('keydown', (e) => { if(e.key === "Escape") closeARVideo(); });
-</script>
 
 </body>
 </html>
