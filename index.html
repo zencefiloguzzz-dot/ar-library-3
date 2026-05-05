@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phrasal-Filmer | Run Out Of Index</title>
+    <title>Phrasal-Filmer | Interactive Index</title>
     <style>
         :root {
-            --beal-maroon: #800000; /* Okul renklerine uygun */
+            --beal-maroon: #800000;
             --dark-bg: #1a1a1a;
             --card-bg: #2d2d2d;
             --text-color: #e0e0e0;
+            --accent-color: #ffd700; /* Altın sarısı vurgu */
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background-color: var(--dark-bg);
             color: var(--text-color);
             display: flex;
@@ -27,104 +28,146 @@
             width: 90%;
             max-width: 800px;
             background: var(--card-bg);
-            padding: 20px;
+            padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border-left: 5px solid var(--beal-maroon);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            border-top: 4px solid var(--beal-maroon);
         }
 
         h1 {
             text-align: center;
             color: var(--beal-maroon);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
+            margin-bottom: 5px;
         }
 
-        .index-item {
+        p.subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        /* Tıklanabilir Buton Stili */
+        .index-button {
             display: flex;
             align-items: center;
             background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 10px;
-            padding: 15px;
-            border-radius: 8px;
-            transition: transform 0.2s;
+            margin-bottom: 12px;
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
+            width: 100%;
+            text-align: left;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            outline: none;
         }
 
-        .index-item:hover {
-            transform: translateX(10px);
-            background: rgba(255, 255, 255, 0.1);
+        .index-button:hover {
+            background: var(--beal-maroon);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-color: var(--accent-color);
+        }
+
+        .index-button:active {
+            transform: scale(0.98);
         }
 
         .id {
             font-weight: bold;
-            font-size: 1.2em;
-            color: var(--beal-maroon);
+            font-size: 1.4em;
+            color: var(--accent-color);
             margin-right: 20px;
-            min-width: 30px;
+            width: 40px;
         }
 
         .content {
             flex-grow: 1;
         }
 
-        .content span {
+        .content strong {
             display: block;
-            font-size: 0.9em;
-            color: #888;
+            font-size: 1.1em;
         }
 
-        .status {
-            font-size: 0.8em;
-            background: #4caf50;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
+        .content span {
+            font-size: 0.85em;
+            opacity: 0.7;
+        }
+
+        /* Bildirim Kutusu */
+        #status-box {
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Phrasal-Filmer: RUN OUT OF</h1>
+    <h1>RUN OUT OF</h1>
+    <p class="subtitle">Phrasal-Filmer AR Content Library</p>
     
-    <div class="index-item">
+    <!-- Buton 1 -->
+    <button class="index-button" onclick="playVideo('Battery Video Açılıyor...')">
         <div class="id">01</div>
         <div class="content">
             <strong>Run out of Battery</strong>
-            <span>Effect: Mask Tracking & Battery UI</span>
+            <span>Mask Tracking & UI Elements</span>
         </div>
-        <div class="status">READY</div>
-    </div>
+    </button>
 
-    <div class="index-item">
-        <div class="id 02">02</div>
+    <!-- Buton 2 -->
+    <button class="index-button" onclick="playVideo('Milk Video Açılıyor...')">
+        <div class="id">02</div>
         <div class="content">
             <strong>Run out of Milk</strong>
-            <span>Effect: Lumetri Color (Cold Tones)</span>
+            <span>Lumetri Color Grading</span>
         </div>
-        <div class="status">READY</div>
-    </div>
+    </button>
 
-    <div class="index-item">
+    <!-- Buton 3 -->
+    <button class="index-button" onclick="playVideo('Patience Video Açılıyor...')">
         <div class="id">03</div>
         <div class="content">
             <strong>Run out of Patience</strong>
-            <span>Effect: Roto Brush (Stress Aura)</span>
+            <span>Roto Brush 3.0 Integration</span>
         </div>
-        <div class="status">READY</div>
-    </div>
+    </button>
 
-    <div class="index-item">
+    <!-- Buton 4 -->
+    <button class="index-button" onclick="playVideo('Time Video Açılıyor...')">
         <div class="id">04</div>
         <div class="content">
             <strong>Run out of Time</strong>
-            <span>Effect: AE Time Remapping[cite: 1]</span>
+            <span>After Effects Time Remapping[cite: 1]</span>
         </div>
-        <div class="status">READY</div>
-    </div>
+    </button>
+
+    <div id="status-box"></div>
 </div>
+
+<script>
+    function playVideo(message) {
+        const box = document.getElementById('status-box');
+        box.style.display = 'block';
+        box.style.backgroundColor = '#4caf50';
+        box.innerText = message;
+        
+        // Buraya ileride video linki ekleyebilirsiniz:
+        // window.location.href = "video_adresi.mp4";
+        
+        setTimeout(() => {
+            box.style.display = 'none';
+        }, 2000);
+    }
+</script>
 
 </body>
 </html>
